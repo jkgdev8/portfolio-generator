@@ -1,4 +1,4 @@
-//9.5.3
+//9.5.4
 
 //fs.writeFile(file, data[, options], callback)
 //^^first, second, third arguments^^
@@ -8,7 +8,8 @@
 //   projects: []
 // }
 
-const fs = require('fs');
+const { writeFile, copyFile} = requre('./utils/generate-site.js');
+
 const inquirer = require('inquirer');
 const generatePage = require("./src/page-template");
 
@@ -139,22 +140,18 @@ Add a New Project
 promptUser()
   .then(promptProject)
   .then(portfolioData => {
-    const pageHTML = generatePage(portfolioData);
-    //const pageHTML = generatePage(mockData);
-
-    fs.writeFile('./dist/index.html', pageHTML, err => {
-      if (err) {
-        console.log(err);
-        return;
-      }
-      console.log('Page created! Check out index.html in this directory to see it!');
-    
-      fs.copyFile('./src/style.css', './dist/style.css', err => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        console.log('Style sheet copied successfully!');
-      });
-    });
+    return generatePage(portfolioData);
+  })
+  .then(pageHTML => {
+    return writeFile(pageHTML);
+  })
+  .then(writeFileResponse => {
+    console.log(writeFileResponse);
+    return copyFile();
+  })
+  .then(copyFileResponse => {
+    console.log(copyFileResponse);
+  })
+  .catch(err => {
+    console.log(err);
   });
