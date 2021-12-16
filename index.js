@@ -1,4 +1,4 @@
-//9.4.3
+//9.5.3
 
 //fs.writeFile(file, data[, options], callback)
 //^^first, second, third arguments^^
@@ -142,9 +142,19 @@ promptUser()
     const pageHTML = generatePage(portfolioData);
     //const pageHTML = generatePage(mockData);
 
-    fs.writeFile('./index.html', pageHTML, err => {
-      if (err) throw new Error(err);
-
+    fs.writeFile('./dist/index.html', pageHTML, err => {
+      if (err) {
+        console.log(err);
+        return;
+      }
       console.log('Page created! Check out index.html in this directory to see it!');
+    
+      fs.copyFile('./src/style.css', './dist/style.css', err => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        console.log('Style sheet copied successfully!');
+      });
     });
   });
