@@ -14,3 +14,8 @@ After installation is complete, run the following code: ‘npm start
 
 # repository
 https://github.com/jkgdev8/portfolio-generator
+
+# preview
+
+![Getting Started](./preview-screen.png)
+
